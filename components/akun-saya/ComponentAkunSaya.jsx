@@ -1,0 +1,175 @@
+import { useEffect, useState } from "react";
+import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { getCurrentUser } from "../utils/getCurrentUser";
+
+const ComponentAkunSaya = () => {
+  const [membership, setMembership] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMembership();
+  }, []);
+
+  const fetchMembership = async () => {
+    try {
+      const user = await getCurrentUser();
+      if (!user) return setLoading(false);
+
+      const response = await fetch(
+        "https://9dec003548aa.ngrok-free.app/user/members/",
+        {
+          headers: { Authorization: `Token ${user.token}` },
+        }
+      );
+
+      const text = await response.text();
+
+      if (response.ok) {
+        const data = JSON.parse(text);
+        const currentUser = data.find(
+          (member) => member.member_id === user.username
+        );
+
+        if (currentUser) {
+          setMembership({
+            namaAnggota: currentUser.member_name,
+            surel: currentUser.member_email,
+            tanggalRegistrasi: currentUser.register_date,
+            institusi: currentUser.inst_name,
+            idAnggota: currentUser.member_id,
+            tipeKeanggotaan: currentUser.member_type_id,
+            berlakuHingga: currentUser.expire_date,
+          });
+        }
+      }
+    } catch (err) {
+      console.log("Error fetching membership", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      
+      <View style={styles.cardName}>
+        <Text style={styles.nameText}>
+          {membership.namaAnggota || "-"}
+        </Text>
+      </View>
+
+      <View style={styles.cardDetail}>
+        {loading ? (
+          <Text>Memuat data...</Text>
+        ) : (
+          <>
+            <Row title="Nama Anggota" value={membership.namaAnggota} />
+            <Row title="ID Anggota" value={membership.idAnggota} />
+            <Row title="Surel Anggota" value={membership.surel} />
+            <Row title="Tipe Keanggotaan" value={membership.tipeKeanggotaan} />
+            <Row title="Tanggal Registrasi" value={membership.tanggalRegistrasi} />
+            <Row title="Berlaku hingga" value={membership.berlakuHingga} />
+            <Row title="Institusi" value={membership.institusi} />
+          </>
+        )}
+      </View>
+
+      <TouchableOpacity style={styles.btn}>
+        <Image
+          source={require("../../assets/icons/Time.png")}
+          style={styles.btnIcon}
+        />
+        <Text style={styles.btnText}>Logout</Text>
+      </TouchableOpacity>
+
+    </View>
+  );
+};
+
+const Row = ({ title, value }) => (
+  <View style={styles.row}>
+    <Text style={styles.rowTitle}>{title} :</Text>
+    <Text style={styles.rowValue}>{value || "-"}</Text>
+  </View>
+);
+
+export default ComponentAkunSaya;
+
+const styles = StyleSheet.create({
+  container: {
+    width: "90%",
+    marginTop: 90,
+    marginBottom: 20,
+  },
+
+  cardName: {
+    backgroundColor: "#EDE9FF",
+    padding: 15,
+    borderRadius: 18,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 7,
+    elevation: 4,
+    margin: 15,
+  },
+
+  nameText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#4A3F87",
+  },
+
+  cardDetail: {
+    marginTop: 20,
+    backgroundColor: "#EDE9FF",
+    padding: 20,
+    borderRadius: 18,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    elevation: 4,
+    gap: 10,
+    margin: 15,
+  },
+
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  rowTitle: {
+    width: "45%",
+    fontWeight: "bold",
+  },
+
+  rowValue: {
+    width: "55%",
+  },
+
+  btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
+    backgroundColor: "#EDE9FF",
+    padding: 15,
+    borderRadius: 18,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    elevation: 4,
+    justifyContent: "center",
+    margin: 15,
+  },
+
+  btnIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+    tintColor: "#555",
+  },
+
+  btnText: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+});

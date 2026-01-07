@@ -14,7 +14,7 @@ export default function RootLayout() {
       // router.replace("/(user)/LupaSandiScreen");
       // router.replace("/(user)/Otp");
       router.replace("/(page)/HomePage");
-      // router.replace("/(page)/HomePage");
+      router.replace("/(page)/HomePage");
     } else { 
       router.replace("/(user)/HomePage");
     }

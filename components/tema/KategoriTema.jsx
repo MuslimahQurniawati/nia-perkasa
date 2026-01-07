@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
   wrapper: {
     marginTop: 10,
     marginBottom: 5,
-    height: 70,
+    width: "100%",
   },
   title: {
     fontSize: 18,
     fontWeight: "700",
     marginBottom: 10,
-    marginLeft: 10,
+    // marginLeft: 10,
   },
   scrollContainer: {
     paddingHorizontal: 10,

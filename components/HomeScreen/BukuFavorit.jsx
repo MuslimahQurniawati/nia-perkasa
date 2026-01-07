@@ -1,6 +1,6 @@
 // import React, { useState, useEffect } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const BukuFavorit = () => {
 //   const [books, setBooks] = useState([]);
@@ -58,30 +58,33 @@ const BukuFavorit = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 16,
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
     height: 160
   },
   list: {
     paddingVertical: 8,
+    paddingHorizontal: 16,
+    textAlign: 'center',
   },
   bookItem: {
-    width: 120,
-    marginRight: 10,
+    width: 140,
+    marginRight: 12,
     alignItems: 'center',
   },
   cover: {
-    width: 120,
-    height: 147,
+    width: 140,
+    height: 180,
     borderRadius: 8,
+    resizeMode: 'cover',
   },
   title: {
-    fontSize: 12,
+    fontSize: 20,
     textAlign: 'center',
     marginTop: 4,
   },
   seeMore: {
-    width: 120,
-    height: 147,
+    width: 140,
+    height: 180,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#eee',

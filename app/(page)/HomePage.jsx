@@ -17,7 +17,7 @@ const API_KEY = "5b382f23237d787c6e9c7b368ee29bcf";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 const HomePage = () => {
-  const [bukuFavorit, setBukuFavorit] = useState([]);
+  const [BukuFavorit, setBukuFavorit] = useState([]);
   const [novel, setNovel] = useState([]);
   const [selected, setSelected] = useState("matematika");
 
@@ -74,20 +74,18 @@ const HomePage = () => {
       {/* ===== BUKU FAVORIT ===== */}
       <View style={style.sectionHeader}>
         <Text style={style.sectionTitle}>Rekomendasi Buku</Text>
-
         <FlatList
-          data={bukuFavorit}
+          data={BukuFavorit}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderPoster}
-          />
+          />  
       </View>
 
       {/* ===== NOVEL ===== */}
       <View style={style.sectionHeader}>
         <Text style={style.sectionTitle}>Buku Populer</Text>
-
         <FlatList
           data={novel}
           horizontal
@@ -105,12 +103,6 @@ const HomePage = () => {
 export default HomePage;
 
 const style = StyleSheet.create({
-containerContent: {
-  flex: 1,
-  alignItems: "center",
-  backgroundColor: "#ffffff",
-},
-
 scrollviewContainer: {
     paddingBottom: 130,
 },
@@ -126,7 +118,7 @@ card: {
 
 poster: {
   width: 130,
-  height: 200,
+  height: 180,
   borderRadius: 12,
 },
 
@@ -135,6 +127,7 @@ cardTitle: {
   marginTop: 6,
   color: "#000000",
   fontWeight: "500",
+  textAlign: "center",
 },
 
 sectionHeader: {
@@ -146,8 +139,9 @@ sectionHeader: {
 },
 
 sectionTitle: {
-  fontSize: 18,
+  fontSize: 23,
   fontWeight: "600",
   color: "#000000",
+  marginBottom: 10,
 },
 });

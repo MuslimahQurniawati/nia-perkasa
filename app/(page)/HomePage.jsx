@@ -9,7 +9,6 @@ import {
   ScrollView,
 } from "react-native";
 
-import BukuFavorit from "../../components/HomeScreen/BukuFavorit";
 import CariBuku from "../../components/HomeScreen/CariBuku";
 import KategoriTema from "../../components/tema/KategoriTema";
 

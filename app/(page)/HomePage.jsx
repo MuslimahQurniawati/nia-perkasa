@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
   FlatList,
   Image,
+  SafeAreaView,
   ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
+import { useRouter } from "expo-router";
 
 import CariBuku from "../../components/HomeScreen/CariBuku";
 import KategoriTema from "../../components/tema/KategoriTema";
@@ -15,8 +17,10 @@ import KategoriTema from "../../components/tema/KategoriTema";
 const API_KEY = "5b382f23237d787c6e9c7b368ee29bcf";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-const HomePage = () => {
-  const [BukuFavorit, setBukuFavorit] = useState([]);
+export default function HomePage() {
+  const router = useRouter();
+
+  const [bukuFavorit, setBukuFavorit] = useState([]);
   const [novel, setNovel] = useState([]);
   const [selected, setSelected] = useState("matematika");
 
@@ -39,108 +43,110 @@ const HomePage = () => {
   }, []);
 
   const renderPoster = ({ item }) => (
-    <View style={style.card}>
+    <TouchableOpacity
+      style={styles.card}
+      activeOpacity={0.8}
+      onPress={() =>
+        router.push({
+          pathname: "/DetailBukuPage",
+          params: {
+            poster: item.poster_path,
+            title: item.title,
+            overview: item.overview,
+            rating: item.vote_average,
+            release: item.release_date,
+          },
+        })
+      }
+    >
       <Image
         source={{ uri: IMAGE_BASE_URL + item.poster_path }}
-        style={style.poster}
+        style={styles.poster}
       />
-      <Text style={style.cardTitle}>{item.title}</Text>
-    </View>
+      <Text style={styles.cardTitle} numberOfLines={2}>
+        {item.title}
+      </Text>
+    </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={style.scrollviewContainer}
-    >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        {/* SEARCH */}
+        <View style={styles.searchWrapper}>
+          <CariBuku />
+        </View>
 
-      <View style={style.searchWrapper}>
-        <CariBuku />
-      </View>
-
-
-      <View style={style.sectionHeader}>
-        <View style={{ paddingVertical: 20 }}>
+        {/* KATEGORI */}
+        <View style={styles.sectionHeader}>
           <KategoriTema
             data={dataKategori}
             selected={selected}
             onSelect={(id) => setSelected(id)}
           />
         </View>
-      </View>
 
-      {/* ===== BUKU FAVORIT ===== */}
-      <View style={style.sectionHeader}>
-        <Text style={style.sectionTitle}>Rekomendasi Buku</Text>
-        <FlatList
-          data={BukuFavorit}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderPoster}
-          />  
-      </View>
+        {/* REKOMENDASI */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Rekomendasi Buku</Text>
+          <FlatList
+            data={bukuFavorit}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={renderPoster}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </View>
 
-      {/* ===== NOVEL ===== */}
-      <View style={style.sectionHeader}>
-        <Text style={style.sectionTitle}>Buku Populer</Text>
-        <FlatList
-          data={novel}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderPoster}
-        />
-      </View>
-    </ScrollView>
+        {/* POPULER */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Buku Populer</Text>
+          <FlatList
+            data={novel}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={renderPoster}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
-
-export default HomePage;
-
-const style = StyleSheet.create({
-scrollviewContainer: {
-    paddingBottom: 130,
-},
-
-searchWrapper: {
-  width: "100%",
-  alignItems: "center",
-},
-card: {
-  width: 130,
-  marginHorizontal: 10,
-},
-
-poster: {
-  width: 130,
-  height: 180,
-  borderRadius: 12,
-},
-
-cardTitle: {
-  fontSize: 12,
-  marginTop: 6,
-  color: "#000000",
-  fontWeight: "500",
-  textAlign: "center",
-},
-
-sectionHeader: {
-  alignItems: "flex-start",
-  width: "100%",
-  paddingLeft: 20,
-  marginBottom: 10,
-
-},
-
-sectionTitle: {
-  fontSize: 23,
-  fontWeight: "600",
-  color: "#000000",
-  marginBottom: 10,
-},
+const styles = StyleSheet.create({
+  scrollContainer: {
+    paddingBottom: 120,
+  },
+  searchWrapper: {
+    alignItems: "center",
+    marginTop: 10,
+  },
+  sectionHeader: {
+    paddingLeft: 20,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "600",
+    marginBottom: 10,
+  },
+  card: {
+    width: 130,
+    marginRight: 15,
+  },
+  poster: {
+    width: 130,
+    height: 190,
+    borderRadius: 12,
+  },
+  cardTitle: {
+    fontSize: 12,
+    textAlign: "center",
+    marginTop: 6,
+    fontWeight: "500",
+  },
 });

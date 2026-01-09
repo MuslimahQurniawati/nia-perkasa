@@ -1,8 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const TabBar = ({ state, navigation }) => {
-  const activeColor = '#0F612F';
-  const inactiveColor = '#5a5860ff';
+  const activeColor = '#124f29ff';
+  const inactiveColor = '#ffffffff';
 
   const icons = {
     HomePage: require('../../assets/icons/Home.png'),
@@ -47,8 +47,8 @@ const TabBar = ({ state, navigation }) => {
             <Image
               source={icons[route.name]}
               style={{
-                width: 40,
-                height: 40,
+                width: 30,
+                height: 30,
                 tintColor: isFocused ? activeColor : inactiveColor,
               }}
             />
@@ -73,25 +73,27 @@ const TabBar = ({ state, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 25,
-    left: 20,
-    right: 20,
+    bottom: 20,
+    left: 19,
+    right: 19,
     flexDirection: 'row',
-    backgroundColor: '#70A284',
-    paddingVertical: 12,
-    borderRadius: 28,
+    backgroundColor: '#16994aff',
+    paddingVertical: 5,
+    borderRadius: 20,
     borderCurve: 'continuous',
-    shadowColor: '#000',
+    shadowColor: '#86f08fff',
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 5 },
-    shadowRadius: 12,
+    shadowRadius: 4,
     elevation: 5,
+    justifyContent: 'space-between',
   },
 
   tabItem: {
-    flex: 1,
+    // marginHorizontal: 12,
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
 });
 

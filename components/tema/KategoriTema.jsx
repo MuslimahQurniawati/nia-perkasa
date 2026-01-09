@@ -57,18 +57,18 @@ const styles = StyleSheet.create({
   },
   pill: {
     borderWidth: 2,
-    borderColor: "#70A284",
+    borderColor: "#16994aff",
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 20,
     marginRight: 10,
   },
   pillActive: {
-    backgroundColor: "#70A284",
+    backgroundColor: "#16994aff",
   },
   pillText: {
     fontSize: 14,
-    color: "#70A284",
+    color: "#16994aff",
     fontWeight: "500",
   },
   pillTextActive: {
